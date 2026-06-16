@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "party-viewer": {
+      "command": "npx",
+      "args": ["tsx", "mcp/party-viewer/src/mcp-server.ts"],
+      "cwd": "${workspaceFolder}"
+    }
+  }
+}

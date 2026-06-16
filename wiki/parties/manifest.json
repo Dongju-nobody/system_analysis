@@ -1,0 +1,22 @@
+{
+  "parties": [
+    {
+      "slug": "메가리자몽Y",
+      "anchor": "메가리자몽Y",
+      "file": "메가리자몽Y-party-main.md",
+      "updated": "2026-06-14"
+    },
+    {
+      "slug": "메가리자몽X",
+      "anchor": "메가리자몽X",
+      "file": "메가리자몽X-party-main.md",
+      "updated": "2026-06-14"
+    },
+    {
+      "slug": "대쓰여너",
+      "anchor": "대쓰여너",
+      "file": "대쓰여너-party-main.md",
+      "updated": "2026-06-14"
+    }
+  ]
+}
