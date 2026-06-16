@@ -1,7 +1,12 @@
+# system_analysis
+
+시·분· 과제
+
+---
+
 # LLM Wiki — 포켓몬 파티 편성 위키
 
 **앵커 포켓몬 기준 싱글·메가 파티**를 설계·저장·조회하는 로컬 지식 베이스와 **Party Viewer** (웹 UI + MCP) 프로젝트입니다.
-
 - 지식은 `wiki/` 아래 Markdown으로 관리합니다.
 - 파티 생성은 `/party-main` (Cursor) 또는 Party Viewer 채팅 (멀티 LLM)으로 합니다.
 - Cursor MCP `party-viewer`로 에이전트가 파티 목록·상세를 도구 호출합니다.
