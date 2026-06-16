@@ -120,6 +120,40 @@ export async function syncParties(): Promise<void> {
   if (!res.ok) throw new Error("동기화 실패");
 }
 
+export type WikiSection = "sources" | "notes" | "concepts" | "parties";
+
+export interface WikiTreeItem {
+  path: string;
+  relPath: string;
+  title: string;
+  section: WikiSection;
+}
+
+export interface WikiTree {
+  sections: Record<WikiSection, WikiTreeItem[]>;
+}
+
+export interface WikiPage {
+  path: string;
+  relPath: string;
+  section: WikiSection;
+  frontmatter: Record<string, unknown>;
+  body: string;
+}
+
+export async function fetchWikiTree(): Promise<WikiTree> {
+  const res = await fetch("/api/wiki/tree");
+  if (!res.ok) throw new Error("위키 목록 로드 실패");
+  return res.json();
+}
+
+export async function fetchWikiPage(path: string): Promise<WikiPage> {
+  const res = await fetch(`/api/wiki/page?path=${encodeURIComponent(path)}`);
+  if (!res.ok) throw new Error("페이지 로드 실패");
+  const data = await res.json();
+  return data.page;
+}
+
 export async function startGenerate(
   anchor: string,
   provider: PartyProvider

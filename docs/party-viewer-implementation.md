@@ -107,7 +107,6 @@ flowchart LR
   end
   subgraph api [http-server :3847]
     Health[/api/health]
-    Keys[/api/providers/key]
     Parties[/api/parties]
     Gen[/api/parties/generate]
   end
@@ -124,7 +123,6 @@ flowchart LR
   end
   Sidebar --> Parties
   Detail --> Parties
-  Chat --> Keys
   Chat --> Gen
   Parties --> core
   Gen --> Cursor
@@ -209,8 +207,6 @@ interface PartyRecord {
 | Method | Path | Body | 응답 |
 |--------|------|------|------|
 | GET | `/api/health` | — | `{ ok, providers, defaultProvider, maxIterations }` |
-| POST | `/api/providers/key` | `{ provider, apiKey }` | `{ ok, provider, connected, providers }` |
-| DELETE | `/api/providers/key/:provider` | — | `{ ok, provider, connected: false, providers }` |
 | GET | `/api/parties` | — | `{ parties: PartyListItem[] }` |
 | GET | `/api/parties/:slug` | — | `{ party: PartyRecord }` |
 | POST | `/api/parties/sync` | — | `{ manifest }` |
@@ -241,35 +237,34 @@ server: {
 
 ---
 
-## 6. API 키 — 3가지 경로
+## 6. API 키 — 환경변수 전용
 
-우선순위: **런타임(웹 붙여넣기) > `.env`**
+| 변수 | Provider |
+|------|----------|
+| `GOOGLE_API_KEY` | google (Gemini) |
+| `ANTHROPIC_API_KEY` | anthropic (Claude) |
+| `OPENAI_API_KEY` | openai |
+| `CURSOR_API_KEY` | cursor |
 
-| 경로 | 저장 위치 | 재시작 후 |
-|------|-----------|-----------|
-| 웹 UI 상단 붙여넣기 + [연동] | 서버 RAM (`runtime-keys.ts`) | **소멸** |
-| `.env` 파일 | `CURSOR_API_KEY` 등 | 유지 |
-| (없음) | — | 생성 불가, 조회는 가능 |
-
-### 6.1 런타임 키 저장소
+- **저장:** 로컬 `.env` 또는 OS 환경변수만 (`.gitignore`에 `.env`)
+- **금지:** 웹 UI 붙여넣기, `POST /api/providers/key`, 소스코드 하드코딩, GitHub에 secret 커밋
+- **재시작:** `.env` 변경 후 API 서버 재시작 필요
 
 ```typescript
-// runtime-keys.ts
-setRuntimeKey(provider, apiKey)
-getRuntimeKey(provider)
-clearRuntimeKey(provider)
+// runtime-keys.ts — env 읽기 + provider 검증
+getEnvKey(provider)
+isValidProvider(value)
 
 // config.ts
-getApiKey(provider)  // runtime ?? process.env
+getApiKey(provider)  // process.env only
 hasProviderKey(provider)
 ```
 
-### 6.2 웹 UI 키 연동 UX
+### 6.1 웹 UI
 
 1. AI 드롭다운: `google` | `anthropic` | `openai` | `cursor`
-2. 상단 `type="password"` + [연동] → `POST /api/providers/key`
-3. 성공 시 드롭다운에 `✓`, `{Provider} 연동됨` 배지
-4. welcome: "서버 재시작 시 키 초기화" 안내
+2. env에 키가 있으면 드롭다운 `✓`, `{Provider} (env)` 배지
+3. welcome: `.env` 설정 + 서버 재시작 안내 (키 입력 필드 없음)
 
 ---
 

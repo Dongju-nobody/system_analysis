@@ -16,3 +16,7 @@ export function getEnvKey(provider: PartyProvider): string | undefined {
 export function isValidProvider(value: string): value is PartyProvider {
   return value === "cursor" || value === "anthropic" || value === "google" || value === "openai";
 }
+
+export function envKeyName(provider: PartyProvider): string {
+  return ENV_KEY[provider];
+}
