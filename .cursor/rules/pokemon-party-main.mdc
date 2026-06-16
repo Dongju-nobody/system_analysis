@@ -1,0 +1,16 @@
+---
+description: 포켓몬 /party-main 파티 편성
+globs:
+alwaysApply: false
+---
+
+# `/party-main` 프로토콜
+
+**메시지가 `/party-main`로 시작**할 때만 (예: `/party-main 메가리자몽Y`).
+
+- 스펙: [docs/pokemon-party-composition.md](../../docs/pokemon-party-composition.md)
+- 출력: `wiki/parties/{앵커}-party-main.md`
+- 후보 풀: `wiki/sources/pokemon-party-mega-list.md`
+- frontmatter `updated: "YYYY-MM-DD"` (따옴표 필수)
+
+구상·평가 루프, 약점 연쇄, 선발3 메가 ≤1 규칙 준수.

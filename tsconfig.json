@@ -10,5 +10,5 @@
     "noEmit": true,
     "isolatedModules": true
   },
-  "include": ["web/party-viewer/src"]
+  "include": ["web/wiki-viewer/src", "tools/**/*.ts"]
 }

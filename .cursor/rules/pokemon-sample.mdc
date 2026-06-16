@@ -1,0 +1,16 @@
+---
+description: 포켓몬 /sample 8샘플 수집
+globs:
+alwaysApply: false
+---
+
+# `/sample` 프로토콜
+
+**메시지가 `/sample`로 시작**하고 포켓몬 이름 + 샘플 이미지가 있을 때만.
+
+1. 8건 원본 저장 → `wiki/sources/{이름}-samples.md`
+2. 동일 빌드 병합, 기술 후보 분리
+3. 템플릿: `wiki/sources/_sample-template.md`
+4. `wiki/index.md` · `wiki/log.md` (`sample |`) 갱신
+
+`/sample`가 아니면 샘플 파싱·저장 금지.

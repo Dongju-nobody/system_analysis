@@ -147,6 +147,88 @@ def parse_index_links(index_path: Path) -> set[str]:
     return refs
 
 
+def _parse_frontmatter(content: str) -> dict | None:
+    m = re.match(r"^---\s*\n(.*?)\n---", content, re.DOTALL)
+    if not m:
+        return None
+    data: dict = {}
+    for line in m.group(1).splitlines():
+        if not line.strip() or line.strip().startswith("#"):
+            continue
+        if ":" not in line:
+            continue
+        key, val = line.split(":", 1)
+        key = key.strip()
+        val = val.strip()
+        if val.startswith('"') and val.endswith('"'):
+            val = val[1:-1]
+        elif val.startswith("'") and val.endswith("'"):
+            val = val[1:-1]
+        data[key] = val
+    return data if data else None
+
+
+def _load_schema(name: str) -> dict | None:
+    root = _llm_wiki_root()
+    path = root / "schema" / name
+    if not path.is_file():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _validate_against_schema(data: dict, schema: dict) -> list[str]:
+    errors: list[str] = []
+    required = schema.get("required") or []
+    props = schema.get("properties") or {}
+    for key in required:
+        if key not in data:
+            errors.append(f"missing required field `{key}`")
+    for key, spec in props.items():
+        if key not in data:
+            continue
+        val = data[key]
+        if "const" in spec and val != spec["const"]:
+            errors.append(f"`{key}` must be {spec['const']!r}, got {val!r}")
+        if spec.get("type") == "string" and not isinstance(val, str):
+            errors.append(f"`{key}` must be string, got {type(val).__name__}")
+        if spec.get("type") == "array" and not isinstance(val, list):
+            errors.append(f"`{key}` must be array")
+    return errors
+
+
+def run_schema_lint(wiki_root: Path, report: LintReport) -> None:
+    schemas = {
+        "notes": "note.schema.json",
+        "sources": "source.schema.json",
+        "parties": "party-main.schema.json",
+    }
+    for folder, schema_name in schemas.items():
+        schema = _load_schema(schema_name)
+        if not schema:
+            report.add("schema_missing", f"schema/{schema_name}", "schema file not found", "add schema JSON")
+            continue
+        dir_path = wiki_root / folder
+        if not dir_path.is_dir():
+            continue
+        for md in sorted(dir_path.glob("*.md")):
+            if md.name.startswith("_"):
+                continue
+            if folder == "parties" and not md.name.endswith("-party-main.md"):
+                continue
+            rel = md.relative_to(wiki_root).as_posix()
+            try:
+                content = md.read_text(encoding="utf-8")
+            except OSError as e:
+                report.add("read_error", rel, str(e), "fix encoding")
+                continue
+            fm = _parse_frontmatter(content)
+            if fm is None:
+                report.add("schema_error", rel, "no valid YAML frontmatter", "add --- block")
+                continue
+            for err in _validate_against_schema(fm, schema):
+                report.add("schema_error", rel, err, f"fix frontmatter per schema/{schema_name}")
+
+
 def run_lint(wiki_root: Path, scope: str) -> LintReport:
     report = LintReport(scope=scope)
     wiki_root = wiki_root.resolve()
@@ -371,6 +453,11 @@ def main() -> int:
     )
     ap.add_argument("--no-save", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument(
+        "--schema",
+        action="store_true",
+        help="validate frontmatter against schema/*.schema.json",
+    )
     args = ap.parse_args()
 
     wiki_root = args.wiki_root.resolve()
@@ -379,6 +466,8 @@ def main() -> int:
         return 1
 
     report = run_lint(wiki_root, args.scope)
+    if args.schema:
+        run_schema_lint(wiki_root, report)
 
     if args.json:
         print(

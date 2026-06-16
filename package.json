@@ -3,11 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "party:server": "tsx mcp/party-viewer/src/http-server.ts",
-    "party:mcp": "tsx mcp/party-viewer/src/mcp-server.ts",
-    "party:web": "vite --config web/party-viewer/vite.config.ts",
-    "party:dev": "concurrently -n server,web -c blue,green \"npm run party:server\" \"npm run party:web\"",
-    "party:parse-test": "tsx mcp/party-viewer/src/test-parse.ts"
+    "wiki:server": "tsx tools/llm-wiki-api/http-server.ts",
+    "wiki:mcp": "tsx tools/llm-wiki-mcp/mcp-server.ts",
+    "wiki:web": "vite --config web/wiki-viewer/vite.config.ts",
+    "wiki:dev": "concurrently -n server,web -c blue,green \"npm run wiki:server\" \"npm run wiki:web\"",
+    "party:server": "npm run wiki:server",
+    "party:mcp": "npm run wiki:mcp",
+    "party:web": "npm run wiki:web",
+    "party:dev": "npm run wiki:dev",
+    "party:parse-test": "tsx tools/llm-wiki-core/test-parse.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.2.12",
@@ -31,6 +35,7 @@
     "concurrently": "^9.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-markdown": "^9.1.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.6"

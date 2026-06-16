@@ -1,8 +1,13 @@
 {
   "mcpServers": {
+    "llm-wiki": {
+      "command": "npx",
+      "args": ["tsx", "tools/llm-wiki-mcp/mcp-server.ts"],
+      "cwd": "${workspaceFolder}"
+    },
     "party-viewer": {
       "command": "npx",
-      "args": ["tsx", "mcp/party-viewer/src/mcp-server.ts"],
+      "args": ["tsx", "tools/llm-wiki-mcp/mcp-server.ts"],
       "cwd": "${workspaceFolder}"
     }
   }

@@ -114,7 +114,16 @@ tags: [wiki, pokemon, party, domain]
 
 ---
 
-## 7. 관련 문서
+## 7. Package 구조 (`tools/`)
+
+| 경로 | 역할 |
+|------|------|
+| `tools/llm-wiki-core/` | wiki/party 공유 코어 |
+| `tools/llm-wiki-api/` | HTTP API |
+| `tools/llm-wiki-mcp/` | MCP (`wiki_*`, `party_*`) |
+| `web/wiki-viewer/` | Browse + Parties UI |
+
+## 8. 관련 문서
 
 | 문서 | 역할 |
 |------|------|

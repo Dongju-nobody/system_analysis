@@ -5,7 +5,7 @@
 1. **Cursor:** 메시지를 **`/wiki`로 시작** (예: `/wiki 에이전트 코딩이란?`). `@llm-wiki`만으로는 위키 모드가 **켜지지 않음**.
 2. **샘플 수집:** **`/sample`로 시작** + 포켓몬 이름 + 8샘플 이미지 → `wiki/sources/<이름>-samples.md`
 3. **파티 구성:** **`/party-main`로 시작** + 앵커 포켓몬 이름 → `wiki/parties/<이름>-party-main.md` (파티 + 멤버별 샘플). **구현 스펙:** [docs/pokemon-party-composition.md](../docs/pokemon-party-composition.md)
-4. **파티 뷰어:** `npm run party:dev` → [Party Viewer Web UI](http://localhost:5173) (3열: 목록 · 상세 · 채팅 생성). MCP: `party-viewer` (`party_list`, `party_get`, …)
+4. **파티 뷰어:** `npm run wiki:dev` → [Wiki Viewer](http://localhost:5173) (Browse · Parties). MCP: `llm-wiki` (`wiki_*`, `party_*`)
 5. **답할 때:** `wiki/sources/` + `wiki/notes/` 검색 (`wiki_query.py`)
 6. **남길 때:** `/wiki` 대화에서 확정한 내용 → `wiki/notes/` (`wiki_capture.py`)
 
@@ -207,7 +207,7 @@
 
 ## 대화 메모 (`notes/`)
 
-- (없음)
+- [Quickstart — My First Wiki Page](notes/quickstart-my-first-page.md) — Package 30분 온보딩 예시
 
 ## 개념 (`concepts/`)
 
@@ -219,7 +219,7 @@
 - [메가리자몽Y 파티](parties/메가리자몽Y-party-main.md) — 앵커 메가리자몽Y (6종 + 샘플)
 - [메가리자몽X 파티](parties/메가리자몽X-party-main.md) — 앵커 메가리자몽X (6종 + 샘플, 3회차 9.0점 통과)
 - [대쓰여너 파티](parties/대쓰여너-party-main.md) — 앵커 대쓰여너 (6종 + 샘플)
-- **Party Viewer** — `npm run party:dev` · `wiki/parties/manifest.json` · `mcp/party-viewer` + `web/party-viewer`
+- **Party Viewer** — `npm run wiki:dev` · `tools/llm-wiki-*` · `web/wiki-viewer`
 
 ## 구현 스펙 (`docs/`)
 

@@ -1,0 +1,7 @@
+LLM Wiki Quickstart Sample
+==========================
+
+This is a plain-text note you can copy into wiki/notes/ or ingest pipeline.
+
+Topic: My first wiki page
+Content: After clone, edit wiki/notes/quickstart-my-first-page.md and refresh Browse in wiki:dev.

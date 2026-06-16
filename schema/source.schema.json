@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "llm-wiki/source.schema.json",
+  "title": "Wiki Source",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string" },
+    "kind": { "type": "string" },
+    "source": { "type": "string" },
+    "updated": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

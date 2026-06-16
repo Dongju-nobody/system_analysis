@@ -1,0 +1,24 @@
+---
+description: LLM Wiki — /wiki 모드 검색·캡처·lint
+globs:
+alwaysApply: false
+---
+
+# LLM Wiki (`/wiki`)
+
+**사용자 메시지가 `/wiki`로 시작할 때만** 적용.
+
+## Do
+
+- `scripts/wiki_query.py` 또는 `wiki/sources/` · `wiki/notes/` 읽고 답변
+- 확정된 지식 → `wiki/notes/` 또는 `wiki_capture.py`
+- `wiki/index.md` · `wiki/log.md` 갱신
+- ingest 후 `wiki_lint.py` 실행
+
+## Do not
+
+- `/wiki` 없이 wiki/ 수정·검색
+- raw PDF를 직접 근거로 사용 (sources MD 우선)
+- `schema/` frontmatter 규칙 위반 (`updated: "YYYY-MM-DD"` 따옴표)
+
+참고: [RULES.md](../../RULES.md), [AGENTS.md](../../AGENTS.md)

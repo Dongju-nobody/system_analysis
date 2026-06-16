@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "llm-wiki/note.schema.json",
+  "title": "Wiki Note",
+  "type": "object",
+  "required": ["kind", "title"],
+  "properties": {
+    "kind": { "const": "note" },
+    "title": { "type": "string", "minLength": 1 },
+    "date": { "type": "string" },
+    "updated": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "sources": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

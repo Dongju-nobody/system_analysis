@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "llm-wiki/party-main.schema.json",
+  "title": "Party Main",
+  "type": "object",
+  "required": ["kind", "anchor", "updated"],
+  "properties": {
+    "title": { "type": "string" },
+    "kind": { "const": "party-main" },
+    "anchor": { "type": "string", "minLength": 1 },
+    "updated": { "type": "string", "minLength": 8 }
+  },
+  "additionalProperties": true
+}

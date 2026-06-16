@@ -214,4 +214,6 @@
 
 ## [2026-06-14] app | 멀티 프로바이더 파티 생성 (Gemini/Claude/OpenAI/Cursor, 3회 루프) → mcp/party-viewer/src/providers/
 
-## [2026-06-14] docs | Party Viewer 이식용 구현 스펙 v1.0 → docs/party-viewer-implementation.md
+## [2026-06-14] package | LLM Wiki Package — tools/, schema, harness, wiki-viewer, demo PNG
+
+## [2026-06-14] note | Quickstart note → wiki/notes/quickstart-my-first-page.md
